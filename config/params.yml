@@ -1,0 +1,34 @@
+preprocessing:
+  train_path: ../data/raw/train.csv
+  unique_values_path: ../data/processed/unique_values.json
+  train_path_proc: ../data/processed/train.csv
+  test_size: 0.2
+  val_size: 0.16
+  target_column: cat
+  target_column_pred: cat_pred
+  sum_columns: ['title', 'description', 'adomain', 'bundle']
+  drop_columns: ['text', 'text_count']
+  rename_columns:
+      cat: cat_orig
+  unnecessary_words: ["google", "ru", "app", "apps", "com", "android", "apple", "lv"]
+  random_state: 10
+
+train:
+  n_trials: 10
+  random_state: 10
+  target_column: cat
+  model_path: ../models/model_lgb.joblib
+  study_path: ../models/study.joblib
+  metrics_path: ../report/metrics.json
+  params_path: ../report/best_params.json
+
+evaluate:
+  predict_path: ../data/check/test.csv
+
+endpoints:
+  train: 'http://fastapi:8000/train'
+  prediction_input: 'http://fastapi:8000/predict_input'
+  prediction_from_file: 'http://fastapi:8000/predict'
+#  train: 'http://localhost:8001/train'
+#  prediction_input: 'http://localhost:8001/predict_input'
+#  prediction_from_file: 'http://localhost:8001/predict'
