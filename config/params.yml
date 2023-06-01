@@ -1,7 +1,7 @@
 preprocessing:
-  train_path: ../data/raw/train.csv
+  train_path: ../data/raw/train_orig.csv
   unique_values_path: ../data/processed/unique_values.json
-  train_path_proc: ../data/processed/train.csv
+  train_proc_path: ../data/processed/train_num.csv
   test_size: 0.2
   val_size: 0.16
   target_column: cat
@@ -9,21 +9,26 @@ preprocessing:
   sum_columns: ['title', 'description', 'adomain', 'bundle']
   drop_columns: ['text', 'text_count']
   rename_columns:
-      cat: cat_orig
+    cat: cat_orig
   unnecessary_words: ["google", "ru", "app", "apps", "com", "android", "apple", "lv"]
+  vectorizer_params:
+    max_df: 0.9
+    max_features: 9000
   random_state: 10
 
 train:
   n_trials: 10
   random_state: 10
   target_column: cat
-  model_path: ../models/model_lgb.joblib
+  model_path: ../models/model_svc_optuna.joblib
   study_path: ../models/study.joblib
   metrics_path: ../report/metrics.json
   params_path: ../report/best_params.json
 
 evaluate:
-  predict_path: ../data/check/test.csv
+  data_origin_path: ../data/check/data_origin.csv
+  data_num_path: ../data/check/data_num.csv
+  data_num_checked_cols_path: ../data/check/data_num_checked_cols.csv
 
 endpoints:
   train: 'http://fastapi:8000/train'
