@@ -22,8 +22,8 @@ train:
   target_column: cat
   model_path: ../models/model_svc_optuna.joblib
   study_path: ../models/study.joblib
-  metrics_path: ../report/metrics.json
-  params_path: ../report/best_params.json
+  metrics_path: ../reports/metrics.json
+  params_path: ../reports/best_params.json
 
 evaluate:
   data_origin_path: ../data/check/data_origin.csv
