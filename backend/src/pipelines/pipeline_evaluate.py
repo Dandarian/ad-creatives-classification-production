@@ -36,7 +36,7 @@ def pipeline_evaluate(
     """
     # Загрузка конфигурации из файла.
     # config_path = '../config/params.yml'
-    with open(config_path) as file:
+    with open(config_path, encoding='utf-8') as file:
         config = yaml.load(file, Loader=yaml.FullLoader)
 
     preprocessing_config = config["preprocessing"]
@@ -46,11 +46,11 @@ def pipeline_evaluate(
     # Загрузка и предобработка данных.
 
     # Если датафрейм передан явно.
-    if data_frame:
+    if data_frame is not None:
         data_eval_origin = data_frame
     # Если путь до датафрейма передан явно.
-    elif df_path:
-        data_eval_origin = load(df_path=os.path.join(df_path))
+    elif df_path is not None:
+        data_eval_origin = load(df_path)
     else:
         data_eval_origin = load(
             df_path=os.path.join(evaluate_config["raw_df_path"])

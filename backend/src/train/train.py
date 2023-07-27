@@ -59,9 +59,7 @@ def objective_svc(
         # Если модель переобучается, тогда надо уменьшить значение
         # gamma, а если недообучается — то увеличить его.
         "gamma": trial.suggest_categorical("gamma", ["scale", "auto"]),
-        "probability": True,
         "break_ties": trial.suggest_categorical("break_ties", [True, False]),
-        "random_state": kwargs["random_state"],
     }
 
     if params["kernel"] == "poly":
@@ -92,7 +90,9 @@ def objective_svc(
 
     # Создание объекта модели SVC с гиперпараметрами, сгенерированными
     # для текущей итерации.
-    model = SVC(**params)
+    model = SVC(
+        **params, probability=True, random_state=kwargs["random_state"]
+    )
     # Обучение.
     model.fit(*train_set)
     # Предсказание.
@@ -114,16 +114,18 @@ def study_with_optuna(
     гиперпараметров.
 
     Параметры:
-        @param train_set: кортеж из
+        @param train_set: Кортеж из
             датасета признаков для обучения модели и
             целевых значений соответствующих датасету признаков для
             обучения.
-        @param val_set: кортеж из
+        @param val_set: Кортеж из
             датасета признаков для валидации модели и
             целевых значений соответствующих датасету признаков для
             валидации.
 
     Ключи-аргументы:
+        @kwarg n_trials (int): Количество итераций выбора
+            гиперпараметров модели.
         @kwarg study_path (str): Путь для сохранения результата Study.
         @kwarg params_path (str): Путь для сохранения оптимальных
             гиперпараметров в JSON формате.
@@ -141,7 +143,9 @@ def study_with_optuna(
     # через объект trial.
     func = lambda trial: objective_svc(trial, train_set, val_set, **kwargs)
 
-    study_svc.optimize(func, n_trials=10, show_progress_bar=True)
+    study_svc.optimize(
+        func, n_trials=kwargs["n_trials"], show_progress_bar=True
+    )
 
     # Сохранение результатов (study, best_params, best_value)
     joblib.dump(study_svc, os.path.join(kwargs["study_path"]))
@@ -176,7 +180,7 @@ def train_on_best_params(
         @return: SVC: Обученная модель SVC.
     """
     svc = SVC(
-        **best_params, random_state=kwargs["random_state"], probability=True
+        **best_params, probability=True, random_state=kwargs["random_state"]
     )
     svc.fit(*train_set)
     # save model

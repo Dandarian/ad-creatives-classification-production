@@ -43,7 +43,10 @@ def pipeline_train(config_path: str):
     # Загрузка данных.
     raw_df = data.load(train_config["raw_df_path"])
     num_df = pipeline_preprocess(
-        data_frame=raw_df, flag_evaluate=False, **preprocessing_config
+        data_frame=raw_df,
+        flag_evaluate=False,
+        **preprocessing_config,
+        **train_config,
     )
 
     # Разбивка данных.
@@ -72,4 +75,4 @@ def pipeline_train(config_path: str):
         y_pred=model.predict(test_set[0]),
         y_proba=model.predict_proba(test_set[0]),
     )
-    save_metrics(result_metrics, os.path.join(train_config["metric_path"]))
+    save_metrics(result_metrics, os.path.join(train_config["metrics_path"]))

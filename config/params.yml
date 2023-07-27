@@ -12,7 +12,8 @@ preprocessing:
     cat: cat_orig
   unnecessary_words: ["google", "ru", "app", "apps", "com", "android", "apple", "lv", "yandex"]
   vectorizer_params:
-    max_df: 0.9
+#    min_df: 0.0
+#    max_df: 0.9
     max_features: 9000
   random_state: 10
 
@@ -20,8 +21,6 @@ train:
   raw_df_path: ../data/raw/train.csv
   num_df_path: ../data/processed/train_num.csv
   n_trials: 10
-  random_state: 10
-  target_column: cat
   model_path: ../models/model_svc_optuna.joblib
   study_path: ../models/study.joblib
   metrics_path: ../reports/metrics.json

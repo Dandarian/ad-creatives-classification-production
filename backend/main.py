@@ -102,10 +102,10 @@ def prediction_input(creative: Creative):
     ]
 
     cols = [
-        "Title",
-        "Description",
-        "Adomain",
-        "Bundle",
+        "title",
+        "description",
+        "adomain",
+        "bundle",
     ]
 
     data = pd.DataFrame(features, columns=cols)
