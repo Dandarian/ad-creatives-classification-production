@@ -56,9 +56,6 @@ def objective_svc(
         "kernel": trial.suggest_categorical(
             "kernel", ["linear", "poly", "rbf", "sigmoid"]
         ),
-        # Если модель переобучается, тогда надо уменьшить значение
-        # gamma, а если недообучается — то увеличить его.
-        "gamma": trial.suggest_categorical("gamma", ["scale", "auto"]),
         "break_ties": trial.suggest_categorical("break_ties", [True, False]),
     }
 
@@ -68,6 +65,10 @@ def objective_svc(
     # влияют на модель в сравнении с полиномами низкой степени.
     if params["kernel"] in ["poly", "sigmoid"]:
         params["coef0"] = trial.suggest_float("coef0", 0.0, 5.0)
+    if params["kernel"] in ["rbf", "poly", "sigmoid"]:
+        # Если модель переобучается, тогда надо уменьшить значение
+        # gamma, а если недообучается — то увеличить его.
+        params["gamma"] = trial.suggest_categorical("gamma", ["scale", "auto"])
 
     # Т.к.в подбор параметров заложен элемент случайности, есть
     # вероятность, что вчерашние параметры могут оказаться лучше, т.к.

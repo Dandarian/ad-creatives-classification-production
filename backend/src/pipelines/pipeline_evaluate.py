@@ -11,7 +11,7 @@ import joblib
 import pandas as pd
 
 # Локальные модули.
-from ..data.load_save import load
+from ..data.load_save import load, save
 from ..pipelines.pipeline_preprocess import pipeline_preprocess
 
 
@@ -51,6 +51,10 @@ def pipeline_evaluate(
     # Если путь до датафрейма передан явно.
     elif df_path is not None:
         data_eval_origin = load(df_path)
+        save(
+            data_frame=data_eval_origin,
+            df_path=os.path.join(evaluate_config["raw_df_path"])
+        )
     else:
         data_eval_origin = load(
             df_path=os.path.join(evaluate_config["raw_df_path"])

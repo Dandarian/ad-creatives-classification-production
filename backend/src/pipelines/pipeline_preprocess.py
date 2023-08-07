@@ -11,7 +11,7 @@ import pandas as pd
 
 # Локальные модули.
 from .. import data
-from ..data.transform import (
+from ..features.build_features import (
     sum_text,
     text_count,
     stem,
@@ -49,6 +49,7 @@ def pipeline_preprocess(
     # Добавление столбцов.
     sum_text(df=data_frame, sum_columns=kwargs["sum_columns"])
     text_count(df=data_frame, col_name="text")
+    data.save(data_frame, os.path.join(kwargs["cng_df_path"]))
 
     # Преобразование текстов.
     list_text = list(data_frame["text"].values)
