@@ -49,7 +49,8 @@ def pipeline_preprocess(
     # Добавление столбцов.
     sum_text(df=data_frame, sum_columns=kwargs["sum_columns"])
     text_count(df=data_frame, col_name="text")
-    data.save(data_frame, os.path.join(kwargs["cng_df_path"]))
+    if data_frame.shape[0] > 2:
+        data.save(data_frame, os.path.join(kwargs["cng_df_path"]))
 
     # Преобразование текстов.
     list_text = list(data_frame["text"].values)
@@ -60,11 +61,13 @@ def pipeline_preprocess(
         list_text=list_text,
         vectorizer_params=kwargs["vectorizer_params"],
     )
-    data.save(data_num, os.path.join(kwargs["num_df_path"]))
+    if data_num.shape[0] > 2:
+        data.save(data_num, os.path.join(kwargs["num_df_path"]))
 
     if flag_evaluate:
         # проверка датасета на совпадение с признаками из train
         data_num = check_columns_evaluate(data_num, **kwargs)
-        data.save(data_num, os.path.join(kwargs["checked_num_df_path"]))
+        if data_num.shape[0] > 2:
+            data.save(data_num, os.path.join(kwargs["checked_num_df_path"]))
 
     return data_num

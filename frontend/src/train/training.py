@@ -1,7 +1,6 @@
 """
-Программа: Тренировка модели на backend, отображение метрик и
-графиков обучения на экране
-Версия: 1.0
+Модуль: Тренировка модели на backend, отображение метрик и графиков
+обучения на экране.
 """
 
 import os
@@ -65,7 +64,14 @@ def start_training(config: dict, endpoint: object) -> None:
     if os.path.exists(config["train"]["params_path"]):
         with open(config["train"]["params_path"]) as json_file:
             best_params = json.load(json_file)
-            st.json(best_params)
+
+            # Преобразование JSON-объекта в список строк
+            json_list = format_json_as_list(best_params)
+
+            st.write("Hyperparameter best values:")
+
+            # Отображение списка строк
+            st.text('\n'.join(json_list))
 
     # plot study
     study = joblib.load(os.path.join(config["train"]["study_path"]))

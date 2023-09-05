@@ -1,6 +1,5 @@
 """
-Программа: Frontend часть проекта
-Версия: 1.0
+Главный файл: Frontend часть проекта.
 """
 import json
 import os
@@ -12,7 +11,7 @@ import yaml
 import streamlit as st
 from src.data.get_data import load_data, get_dataset
 from src.visualization.charts import words_count_bars, \
-    barplot_category_percents, barplot_group, kdeplotting, embeddings_diagram, \
+    barplot_category_percents, embeddings_diagram, \
     total_len_words
 from src.train.training import start_training, show_old_results
 from src.evaluate.evaluate import evaluate_input, evaluate_from_file, \
@@ -157,15 +156,18 @@ def exploratory():
     if barplot_predicted_category_percents_box:
         st.pyplot(
             barplot_category_percents(
-                sr=pd.read_csv(config["evaluate"]["prediction_path"],
-                               header=None, squeeze=True),
+                sr=pd.read_csv(
+                    os.path.join(config["evaluate"]["prediction_path"]),
+                    header=None,
+                    squeeze=True
+                )[1:],
                 title="Количество объектов в предсказанной категории "
                       "рабочего датасета"
             )
         )
     if embeddings_diagram_box:
         X = pd.read_csv(
-            config["evaluate"]["checked_num_df_path"],
+            os.path.join(config["evaluate"]["checked_num_df_path"]),
             index_col=0,
             keep_default_na=False
         )

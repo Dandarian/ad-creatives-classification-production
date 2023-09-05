@@ -13,7 +13,7 @@ preprocessing:
   vectorizer_params:
 #    min_df: 0.0
 #    max_df: 0.9
-    max_features: 9000
+    max_features: 90000
   random_state: 10
 
 train:

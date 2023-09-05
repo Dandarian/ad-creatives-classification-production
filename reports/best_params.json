@@ -1,1 +1,1 @@
-{"C": 1, "kernel": "linear", "gamma": "scale", "break_ties": false}
+{"C": 10, "kernel": "linear", "break_ties": true}

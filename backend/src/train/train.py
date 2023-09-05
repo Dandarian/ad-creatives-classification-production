@@ -4,6 +4,7 @@
 
 # Стандартные библиотеки.
 import json
+# import logging
 import os
 from typing import Tuple
 
@@ -15,6 +16,10 @@ from optuna import Study
 from sklearn.metrics import roc_auc_score
 from sklearn.svm import SVC
 
+# logging.basicConfig(
+#     level=logging.INFO,
+#     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+# )
 
 def objective_svc(
         trial: optuna.Trial,
@@ -150,6 +155,11 @@ def study_with_optuna(
 
     # Сохранение результатов (study, best_params, best_value)
     joblib.dump(study_svc, os.path.join(kwargs["study_path"]))
+    # logging.info("Study has saved on back")
+    # logging.info(f'{kwargs["study_path"] = }')
+    # study = joblib.load(os.path.join(kwargs["study_path"]))
+    # logging.info("Study has loaded on back")
+    # logging.info(f"{study.best_value = }")
     with open(os.path.join(kwargs["params_path"]), "w", encoding='utf-8') as f:
         json.dump(study_svc.best_params, f)
     with open(os.path.join(kwargs["value_path"]), "w", encoding='utf-8') as f:

@@ -135,14 +135,13 @@ def del_new_add_old_cols(
     for col in columns_to_add:
         df[col] = 0.0  # Добавляем признак с нулевыми значениями.
 
-    if df.shape[0] > 2:
-        len_cols = {
-            "new_columns": len(columns_to_remove),
-            "missed_columns": len(columns_to_add),
-        }
-        # Сохраняем len_cols.
-        with open(kwargs["len_cols_path"], "w", encoding='utf-8') as f:
-            json.dump(len_cols, f)
+    len_cols = {
+        "new_columns": len(columns_to_remove),
+        "missed_columns": len(columns_to_add),
+    }
+    # Сохраняем len_cols.
+    with open(kwargs["len_cols_path"], "w", encoding='utf-8') as f:
+        json.dump(len_cols, f)
 
 
 def check_columns_evaluate(df: pd.DataFrame, **kwargs) -> pd.DataFrame:

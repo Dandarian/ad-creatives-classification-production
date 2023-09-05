@@ -1,7 +1,6 @@
 """
-Программа: Отрисовка слайдеров и кнопок для ввода данных
-с дальнейшим получением предсказания на основании введенных значений
-Версия: 1.0
+Модуль: Отрисовка слайдеров и кнопок для ввода данных
+с дальнейшим получением предсказания на основании введенных значений.
 """
 
 import json
@@ -61,7 +60,7 @@ def evaluate_from_file(data: pd.DataFrame, endpoint: object, files: BytesIO):
     button_ok = st.button("Predict")
     if button_ok:
         # заглушка так как не выводим все предсказания
-        data_ = data[:5]
+        data_ = data[1:6]
         output = requests.post(endpoint, files=files, timeout=8000)
         print(output)
         data_["predict"] = output.json()["prediction"]
@@ -88,6 +87,6 @@ def show_old_pred_results(config: dict) -> None:
         with open(config["evaluate"]["prediction_path"], 'r') as file:
             lines = file.read().splitlines()
         # Преобразование списка строк в массив NumPy
-        predict_ = np.array(lines[:5], dtype=str)
+        predict_ = np.array(lines[1:6], dtype=str)
         data_["predict"] = predict_
         st.write(data_.drop(columns=['Unnamed: 0']).head())

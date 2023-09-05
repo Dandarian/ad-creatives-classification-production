@@ -4,6 +4,7 @@
 
 # Стандартные библиотеки.
 import os
+from typing import List
 
 # Сторонние библиотеки.
 import yaml
@@ -17,7 +18,7 @@ from ..pipelines.pipeline_preprocess import pipeline_preprocess
 
 def pipeline_evaluate(
     config_path: str, data_frame: pd.DataFrame = None, df_path: str = None
-) -> list[float]:
+) -> List[float]:
     """
     Получает предсказания для рабочих данных.
 
@@ -72,8 +73,9 @@ def pipeline_evaluate(
 
     prediction = model.predict(data_eval_num).tolist()
 
-    pd.Series(prediction).to_csv(
-        evaluate_config["prediction_path"], index=False
-    )
+    if data_eval_origin.shape[0] > 2:
+        pd.Series(prediction).to_csv(
+            evaluate_config["prediction_path"], index=False
+        )
 
     return prediction

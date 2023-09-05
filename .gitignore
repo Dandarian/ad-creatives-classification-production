@@ -9,7 +9,7 @@ __pycache__/
 .Python
 env/
 build/
-data/
+#data/
 develop-eggs/
 dist/
 donneed/
@@ -82,6 +82,7 @@ target/
 
 # exclude data from source control by default
 /data/
+/.pytest_cache/
 
 # Mac OS-specific storage files
 .DS_Store
